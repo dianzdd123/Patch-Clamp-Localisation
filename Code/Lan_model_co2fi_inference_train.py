@@ -439,12 +439,13 @@ def train_model(model, train_dataloader, val_dataloader, loss_mp, loss_co, devic
 
     
     for epoch in range(num_epochs):
-       train_epoch_loss = 0
+        model.train()  # Validation switches to eval mode after each epoch.
+        train_epoch_loss = 0
         train_heatmap_loss = 0
         train_coords_loss = 0
         valid_epoch_loss = 0
 
-        for images, heatmaps, keypoints in train_loader:
+        for images, heatmaps, keypoints in train_dataloader:
             images, heatmaps = images.to(device, dtype=torch.float32), heatmaps.to(device, dtype=torch.float32)
             keypoints = keypoints.to(device, dtype=torch.float32)
             optimizer.zero_grad()
